@@ -1,0 +1,63 @@
+.tree_wrap ul {
+    padding: 0em;
+}
+
+.tree_wrap ul li, .tree_wrap ul li .tree_wrap ul li {
+    position:relative;
+    top:0;
+    bottom:0;
+    padding-bottom: 7px;
+
+}
+
+
+.tree_wrap ul li ul {
+    margin-left: 4em;
+}
+
+.tree_wrap li {
+    list-style-type: none;
+}
+
+.tree_wrap li a {
+    padding:0 0 0 10px;
+    position: relative;
+    top:1em;
+}
+
+.tree_wrap li a:hover {
+    text-decoration: none;
+}
+
+.tree_wrap a.addBorderBefore:before {
+    content: "";
+    display: inline-block;
+    width: 2px;
+    height: 28px;
+    position: absolute;
+    left: -47px;
+    top:-16px;
+    border-left: 1px solid gray;
+}
+
+.tree_wrap li:before {
+    content: "";
+    display: inline-block;
+    width: 25px;
+    height: 0;
+    position: relative;
+    left: 0em;
+    top:1em;
+    border-top: 1px solid gray;
+}
+
+.tree_wrap ul li ul li:last-child:after, .tree_wrap ul li:last-child:after {
+    content: '';
+    display: block;
+    width: 1em;
+    height: 1em;
+    position: relative;
+    background: #fff;
+    top: 9px;
+    left: -1px;
+}
