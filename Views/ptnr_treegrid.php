@@ -224,7 +224,7 @@ if($_POST) {
 <?php
 
 ?>
-
+<?php  if(gettype($search) == 'object'){?>
 <i class="fa fa-user fa-4x" aria-hidden="true" >
     <ul>
         <?php
@@ -360,3 +360,5 @@ if($_POST) {
 
 
 </script>
+
+<?php }?>

@@ -44,7 +44,8 @@ class Ptnr {
             $search = $this->ptnrTable->search($wchk2, $str, $like);
 
         }
-        if(isset($search)){
+        ;
+        if(gettype($search) == 'object'){
             $my_level = $search->gen_level;
             $ptnr_mp = $search->ptnr_mp;
         }
@@ -69,46 +70,49 @@ class Ptnr {
 //        // 아래 foreach로 $data 배열을 연관배열로 구성할텐데 현재 레벨 + Depth로 숫자 설정
 
         if ($_POST) {
+            if(gettype($search) == 'object') {
 
-            if($wchk !== 'all_tree' || empty($wchk)){
-                $tree_number = $my_level + $tree_row;
+                if ($wchk !== 'all_tree' || empty($wchk)) {
+                    $tree_number = $my_level + $tree_row;
 //
-            }
-            // 전체 & 세로형
-            if($wchk == 'all_tree' && $treechk == 'height_tree'){
-                $tree_number = $my_level + $tree_row;
-            }
-            // 전체 & 가로형
-            if($wchk == 'all_tree' && $treechk == 'width_tree'){
-                $tree_number = $my_level + $tree_row;
-            }
+                }
+                // 전체 & 세로형
+                if ($wchk == 'all_tree' && $treechk == 'height_tree') {
+                    $tree_number = $my_level + $tree_row;
+                }
+                // 전체 & 가로형
+                if ($wchk == 'all_tree' && $treechk == 'width_tree') {
+                    $tree_number = $my_level + $tree_row;
+                }
 
-            // $ouput[id]값에 해당id값 배열 넣기
-            foreach ($data as $key => &$value) {
-                $output[$value["id"]] = &$value;
+                // $ouput[id]값에 해당id값 배열 넣기
+                foreach ($data as $key => &$value) {
+                    $output[$value["id"]] = &$value;
+                }
             }
         }
 //
 //
 
 
-
-        foreach ($data as $key => &$value) {
-            if(isset($tree_row) && $tree_row !== 'all') {
-                //$output에 연관배열 값 넣기      &$value에서 & 값이 중요하다
-                if ($value['level'] < $tree_number) {
-                    if ($treechk == 'width_tree' && $value["parent_id"] && isset($output[$value["parent_id"]])) {
+        if(gettype($search) == 'object') {
+            foreach ($data as $key => &$value) {
+                if (isset($tree_row) && $tree_row !== 'all') {
+                    //$output에 연관배열 값 넣기      &$value에서 & 값이 중요하다
+                    if ($value['level'] < $tree_number) {
+                        if ($treechk == 'width_tree' && $value["parent_id"] && isset($output[$value["parent_id"]])) {
+                            $output[$value["parent_id"]]['children'][] = &$value;
+                        } else {
+                            $output[$value["parent_id"]][] = &$value;
+                        }
+                    }
+                } else {
+                    if (isset($treechk) && $treechk == 'width_tree' && $value["parent_id"] && isset($output[$value["parent_id"]])) {
+                        //                if($output[$value["level"] < 3){
                         $output[$value["parent_id"]]['children'][] = &$value;
                     } else {
                         $output[$value["parent_id"]][] = &$value;
                     }
-                }
-            } else {
-                if (isset($treechk) &&$treechk == 'width_tree' && $value["parent_id"] && isset($output[$value["parent_id"]])) {
-                    //                if($output[$value["level"] < 3){
-                    $output[$value["parent_id"]]['children'][] = &$value;
-                } else {
-                    $output[$value["parent_id"]][] = &$value;
                 }
             }
         }
